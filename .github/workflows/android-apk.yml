@@ -20,14 +20,21 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Check folder structure
+        run: |
+          pwd
+          ls -la
+          if [ -d "Tahirtrader737" ]; then ls -la Tahirtrader737; ls -la Tahirtrader737/src || echo "no src"; fi
+          if [ -d "src" ]; then ls -la src; fi
+
       - name: Install dependencies
         run: |
-          cd Tahirtrader737
+          if [ -d "Tahirtrader737" ]; then cd Tahirtrader737; fi
           npm install
 
       - name: Build web app
         run: |
-          cd Tahirtrader737
+          if [ -d "Tahirtrader737" ]; then cd Tahirtrader737; fi
           npm run build
 
       - name: Setup Android SDK
@@ -35,9 +42,8 @@ jobs:
 
       - name: Build APK
         run: |
-          cd Tahirtrader737
-          npm install -g @capacitor/cli
-          if [ ! -d "android" ]; then npx cap add android; fi
+          if [ -d "Tahirtrader737" ]; then cd Tahirtrader737; fi
+          npx cap add android || true
           npx cap sync android
           cd android
           chmod +x gradlew
@@ -47,4 +53,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Tahirtrader-APK
-          path: Tahirtrader737/android/app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            Tahirtrader737/android/app/build/outputs/apk/debug/app-debug.apk
