@@ -1,0 +1,6 @@
+{
+  "appId": "com.marketpulse.app",
+  "appName": "MarketPulse",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
